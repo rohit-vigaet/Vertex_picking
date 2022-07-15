@@ -1,0 +1,13 @@
+{
+  "name": "vertexpicking",
+  "version-string": "1.0",
+    "dependencies": [
+        "opengl",
+        "freeglut",
+        "glm",
+        {
+            "name": "pcl",
+            "features": [ "opengl" ]
+        }
+    ]
+}
