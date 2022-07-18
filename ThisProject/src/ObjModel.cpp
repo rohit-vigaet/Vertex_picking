@@ -85,7 +85,7 @@ void ObjModel::loadObj(const char *filename)
         //File open error check
         if (!in_file.is_open())
         {
-            throw "ERROR::OBJLOADER::Could not open file.";
+            throw std::runtime_error ("ERROR::OBJLOADER::Could not open file.");
         }
 
         //Read one line at a time

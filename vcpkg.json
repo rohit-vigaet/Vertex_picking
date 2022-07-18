@@ -7,7 +7,7 @@
         "glm",
         {
             "name": "pcl",
-            "features": [ "opengl" ]
+            "features": []
         }
     ]
 }

@@ -25,12 +25,13 @@ SceneViewLeft::SceneViewLeft() :
     // *** create scene (no OpenGL calls are being issued below, just the data structures are created.
 
     // Shaderprogram #0 : regular geometry (painting triangles via element index)
-    ShaderProgram blocks("E:/Applications/qt_vertex-picking/shaders/withWorldAndCamera.vert","E:/Applications/qt_vertex-picking/shaders/simple.frag");
+    ShaderProgram blocks (PROJECT_SOURCE_LOCATION "shaders/withWorldAndCamera.vert"
+						 ,PROJECT_SOURCE_LOCATION "shaders/simple.frag");
     blocks.m_uniformNames.append("worldToView");
     m_shaderPrograms.append( blocks );
 
     // Shaderprogram #1 : grid (painting grid lines)
-    ShaderProgram grid("E:/Applications/qt_vertex-picking/shaders/grid.vert","E:/Applications/qt_vertex-picking/shaders/grid.frag");
+    ShaderProgram grid(PROJECT_SOURCE_LOCATION "shaders/grid.vert",PROJECT_SOURCE_LOCATION "shaders/grid.frag");
     grid.m_uniformNames.append("worldToView"); // mat4
     grid.m_uniformNames.append("gridColor"); // vec3
     grid.m_uniformNames.append("backColor"); // vec3
@@ -45,7 +46,7 @@ SceneViewLeft::SceneViewLeft() :
     // look slightly left
     m_camera.rotate(-170, QVector3D(0.0f, 1.0f, 0.0f));
 
-    m_boxObject.loadObj("C:/Users/firo1/Downloads/frame1.ply");
+    m_boxObject.loadObj(PROJECT_ROOT_LOCATION "assets/frame1.ply");
     m_boxObject.boxobj();
 }
 

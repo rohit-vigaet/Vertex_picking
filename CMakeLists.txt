@@ -20,7 +20,7 @@ if (DEFINED ENV{VCPKG_DIR} AND NO_VCPKG_TOOLCHAIN_FILE)
 endif ()
 
 if (NO_VCPKG_TOOLCHAIN_FILE)
-    message (FATAL_ERROR "check if env:VCPKG_DIR if defined or define CMAKE_TOOLCHAIN_FILE=VCPKG_TOOLCHAIN_FILE")
+    message (FATAL_ERROR "check if env:VCPKG_DIR if defined or append <VCPKG_TOOLCHAIN_FILE_PATH> to CMAKE_TOOLCHAIN_FILE")
 endif ()
 
 

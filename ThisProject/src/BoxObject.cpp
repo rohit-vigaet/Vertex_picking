@@ -69,151 +69,151 @@ BoxObject::BoxObject() :
 void BoxObject::loadObj(const char *filename)
 {
     //Vertex portions
+
+    //std::vector<Vertex> vertex_texcoords;
+    //std::vector<Vertex> vertex_normals;
+
+    //Face vectors
     
-        //std::vector<Vertex> vertex_texcoords;
-        //std::vector<Vertex> vertex_normals;
+    //std::vector<GLint> vertex_texcoord_indicies;
+    //std::vector<int> vertex_normal_indicies;
 
-        //Face vectors
-        
-        //std::vector<GLint> vertex_texcoord_indicies;
-        //std::vector<int> vertex_normal_indicies;
+    std::stringstream ss;
+    std::ifstream in_file(filename);
+    std::string line = "";
+    std::string prefix = "";
+    glm::vec3 temp_vec3;
+    GLint temp_glint[3];
 
-        std::stringstream ss;
-        std::ifstream in_file(filename);
-        std::string line = "";
-        std::string prefix = "";
-        glm::vec3 temp_vec3;
-        GLint temp_glint[3];
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
+    ////pcl::PLYReader Reader;
+    ////Reader.read("C:/Users/firo1/Downloads/frame1.ply", *cloud);
+    if (pcl::io::loadPLYFile<pcl::PointXYZ>(filename, *cloud) == -1)
+    {
+        PCL_ERROR("Couldn't read file test_pcd.pcd \n");
+    }
 
-        pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
-        ////pcl::PLYReader Reader;
-        ////Reader.read("C:/Users/firo1/Downloads/frame1.ply", *cloud);
-        if (pcl::io::loadPLYFile<pcl::PointXYZ>(filename, *cloud) == -1)
-        {
-        	PCL_ERROR("Couldn't read file test_pcd.pcd \n");
-        }
+    std::cout << "Loaded " << cloud->width * cloud->height << " data points from test_pcd.pcd with the following fields: " << std::endl;
+    for (const auto& point : *cloud)
+    {
+        temp_vec3.x = point.x;
+        temp_vec3.y = point.y;
+        temp_vec3.z = point.z;
 
-        std::cout << "Loaded " << cloud->width * cloud->height << " data points from test_pcd.pcd with the following fields: " << std::endl;
-        for (const auto& point : *cloud)
-        {
-            temp_vec3.x = point.x;
-            temp_vec3.y = point.y;
-            temp_vec3.z = point.z;
+        vertex_positions.push_back(temp_vec3);
+    }        
 
-            vertex_positions.push_back(temp_vec3);
-        }        
+    //File open error check
+    if (!in_file.is_open())
+    {
+        throw std::runtime_error ("ERROR::OBJLOADER::Could not open file.");
+    }
 
-        //File open error check
-        if (!in_file.is_open())
-        {
-            throw "ERROR::OBJLOADER::Could not open file.";
-        }
+    //Read one line at a time
+    //while (std::getline(in_file, line))
+    {
+        //Get the prefix of the line
+        //ss.clear();
+        //ss.str(line);
+        //ss >> prefix;
 
-        //Read one line at a time
-        //while (std::getline(in_file, line))
-        {
-            //Get the prefix of the line
-            //ss.clear();
-            //ss.str(line);
-            //ss >> prefix;
-
-            //if (prefix == "#")
-            //{
-
-            //}
-            //else if (prefix == "o")
-            //{
-
-            //}
-            //else if (prefix == "s")
-            //{
-
-            //}
-            //else if (prefix == "use_mtl")
-            //{
-
-            //}
-
-            //if (prefix == "v") //Vertex position
-            //{
-            //    ss >> temp_vec3.x >> temp_vec3.y >> temp_vec3.z;
-            //    vertex_positions.push_back(temp_vec3);
-            //}
-           //else if (prefix == "vt")
-           //{
-           //    ss >> temp_vec2.x >> temp_vec2.y;
-           //    vertex_texcoords.push_back(temp_vec2);
-           //}
-           //else if (prefix == "vn")-
-           //{
-           //    ss >> temp_vec3.x >> temp_vec3.y >> temp_vec3.z;
-           //    vertex_normals.push_back(temp_vec3);
-           //}
-            //else if (prefix == "f")
-            //{
-            //    int counter = 0;
-            //    while (ss >> temp_glint[0] >> temp_glint[1] >> temp_glint[2])
-            //    {
-            //        //Pushing indices into correct arrays
-            //        if (counter == 0){
-            //            indices.push_back(temp_glint[0]);
-            //            indices.push_back(temp_glint[1]);
-            //            indices.push_back(temp_glint[2]);
-            //        }
-            //        //else if (counter == 1)
-            //        //    vertex_texcoord_indicies.push_back(temp_glint);
-            //        //else if (counter == 2)
-            //        //    vertex_normal_indicies.push_back(temp_glint);
-            //
-            //        //Handling characters
-            //        if (ss.peek() == '/')
-            //        {
-            //            ++counter;
-            //            ss.ignore(1, '/');
-            //        }
-            //        else if (ss.peek() == ' ')
-            //        {
-            //            ++counter;
-            //            ss.ignore(1, ' ');
-            //        }
-            //
-            //        //Reset the counter
-            //        if (counter > 2)
-            //            counter = 0;
-            //    }
-            //}
-            //else
-            //{
-            //
-            //}
-        }
-
-        
-
-        //Build final vertex array (mesh)
-       //vertices.resize(indices.size(), Model_Vertex());
-
-        //Load in all indices
-        //for (GLint i = 0; i < vertices.size(); i++)
+        //if (prefix == "#")
         //{
-            //vertices[i].positions = vertex_positions[indices[i] - 1];
 
-            //vertices[i] = vertex_texcoords[vertex_texcoord_indicies[i] - 1];
+        //}
+        //else if (prefix == "o")
+        //{
 
-            //vertices[i] = vertex_normals[vertex_normal_indicies[i] - 1];
+        //}
+        //else if (prefix == "s")
+        //{
 
-            //vertices[i].r = 1.0f;
-            //vertices[i].g = 1.0f;
-            //vertices[i].b = 1.0f;
+        //}
+        //else if (prefix == "use_mtl")
+        //{
+
         //}
 
-        //DEBUG
-    qDebug() << "testing";
-        qDebug() << "Size of vertices: " << vertex_positions.size() << "\n";
-        //qDebug() << "Size of indices: " << indices.size() << "\n";
+        //if (prefix == "v") //Vertex position
+        //{
+        //    ss >> temp_vec3.x >> temp_vec3.y >> temp_vec3.z;
+        //    vertex_positions.push_back(temp_vec3);
+        //}
+        //else if (prefix == "vt")
+        //{
+        //    ss >> temp_vec2.x >> temp_vec2.y;
+        //    vertex_texcoords.push_back(temp_vec2);
+        //}
+        //else if (prefix == "vn")-
+        //{
+        //    ss >> temp_vec3.x >> temp_vec3.y >> temp_vec3.z;
+        //    vertex_normals.push_back(temp_vec3);
+        //}
+        //else if (prefix == "f")
+        //{
+        //    int counter = 0;
+        //    while (ss >> temp_glint[0] >> temp_glint[1] >> temp_glint[2])
+        //    {
+        //        //Pushing indices into correct arrays
+        //        if (counter == 0){
+        //            indices.push_back(temp_glint[0]);
+        //            indices.push_back(temp_glint[1]);
+        //            indices.push_back(temp_glint[2]);
+        //        }
+        //        //else if (counter == 1)
+        //        //    vertex_texcoord_indicies.push_back(temp_glint);
+        //        //else if (counter == 2)
+        //        //    vertex_normal_indicies.push_back(temp_glint);
+        //
+        //        //Handling characters
+        //        if (ss.peek() == '/')
+        //        {
+        //            ++counter;
+        //            ss.ignore(1, '/');
+        //        }
+        //        else if (ss.peek() == ' ')
+        //        {
+        //            ++counter;
+        //            ss.ignore(1, ' ');
+        //        }
+        //
+        //        //Reset the counter
+        //        if (counter > 2)
+        //            counter = 0;
+        //    }
+        //}
+        //else
+        //{
+        //
+        //}
+    }
 
-        //Loaded success
-        qDebug() << "PLY file loaded!" << "\n";
+    
+
+    //Build final vertex array (mesh)
+    //vertices.resize(indices.size(), Model_Vertex());
+
+    //Load in all indices
+    //for (GLint i = 0; i < vertices.size(); i++)
+    //{
+        //vertices[i].positions = vertex_positions[indices[i] - 1];
+
+        //vertices[i] = vertex_texcoords[vertex_texcoord_indicies[i] - 1];
+
+        //vertices[i] = vertex_normals[vertex_normal_indicies[i] - 1];
+
+        //vertices[i].r = 1.0f;
+        //vertices[i].g = 1.0f;
+        //vertices[i].b = 1.0f;
+    //}
+
+    //DEBUG
+
+    qDebug() << "Size of vertices: " << vertex_positions.size() << "\n";
+    //qDebug() << "Size of indices: " << indices.size() << "\n";
+
+    //Loaded success
+    qDebug() << "PLY file loaded!" << "\n";
 }
 
 void BoxObject::boxobj()

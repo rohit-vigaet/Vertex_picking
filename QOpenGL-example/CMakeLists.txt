@@ -103,7 +103,7 @@ set_property(TARGET ${TARGET_EXEC} PROPERTY
 target_compile_definitions(${TARGET_EXEC}
     PRIVATE 
         _ENABLE_EXTENDED_ALIGNED_STORAGE
-        #QT_OPENGLWIDGETS_LIB
+        PROJECT_SOURCE_LOCATION="${CMAKE_CURRENT_LIST_DIR}/"
     )
 
 target_include_directories (${TARGET_EXEC}
