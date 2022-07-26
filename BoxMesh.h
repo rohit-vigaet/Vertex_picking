@@ -10,6 +10,8 @@
 #include "Transform3d.h"
 #include "Vertex.h"
 
+#include <glm.hpp>
+
 /*! A mesh for boxes (quader). A box is defined through dimensions in x, y and z (width, height, length/depth) and
     is constructed centered around the origin.
 

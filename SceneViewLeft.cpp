@@ -46,7 +46,6 @@ SceneViewLeft::SceneViewLeft() :
     m_camera.rotate(-170, QVector3D(0.0f, 1.0f, 0.0f));
 
     m_boxObject.loadObj("C:/Users/firo1/Downloads/frame1.ply");
-    m_boxObject.boxobj();
 }
 
 
@@ -215,6 +214,14 @@ void SceneViewLeft::wheelEvent(QWheelEvent *event) {
     checkInput();
 }
 
+static const glm::vec3 qvec3toVec3(const QVector3D& q)
+{
+    glm::vec3 v;
+    v.x = q.x();
+    v.y = q.y();
+    v.z = q.z();
+    return v;
+}
 
 void SceneViewLeft::pick(const QPoint & globalMousePos) {
     // local mouse coordinates
@@ -383,17 +390,19 @@ void SceneViewLeft::selectNearestObject(const QVector3D & nearPoint, const QVect
     PickObject p(2.f, std::numeric_limits<unsigned int>::max());
 
     // now process all objects and update p to hold the closest hit
-    m_boxObject.pick(nearPoint, d, p);
+    //m_boxObject.pick(nearPoint, d, p);
     // ... other objects
 
-    // any object accepted a pick?
-    if (p.m_objectId == std::numeric_limits<unsigned int>::max())
-        return; // nothing selected
+    m_boxObject.pickPoint(qvec3toVec3(nearPoint), qvec3toVec3(farPoint));
 
-    qDebug().nospace() << "Pick successful (Box #"
-                       << p.m_objectId <<  ", Face #" << p.m_faceId << ", t = " << p.m_dist << ") after "
-                       << pickTimer.elapsed() << " ms";
+    // any object accepted a pick?
+    //if (p.m_objectId == std::numeric_limits<unsigned int>::max())
+    //    return; // nothing selected
+
+    //qDebug().nospace() << "Pick successful (Box #"
+    //                   << p.m_objectId <<  ", Face #" << p.m_faceId << ", t = " << p.m_dist << ") after "
+    //                   << pickTimer.elapsed() << " ms";
 
     // Mind: OpenGL-context must be current when we call this function!
-    m_boxObject.highlight(p.m_objectId, p.m_faceId);
+    //m_boxObject.highlight(p.m_objectId, p.m_faceId);
 }

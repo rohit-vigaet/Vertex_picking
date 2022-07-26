@@ -33,9 +33,9 @@ bool intersectsRect(const QVector3D & a,
                 const QVector3D & d,
                 float & dist);
 
-bool intersectsPoint(const QVector3D&v,
-                     const QVector3D &p1,
-                     const QVector3D &d,
-                     float &dist);
+bool rayTriangleIntersect(
+    const glm::vec3& orig, const glm::vec3& dir,
+    const glm::vec3& v0, const glm::vec3& v1, const glm::vec3& v2,
+    float& t);
 
 #endif // PICKOBJECT_H

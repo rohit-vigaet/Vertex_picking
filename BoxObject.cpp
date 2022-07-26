@@ -9,8 +9,6 @@
 #include <fstream>
 #include <sstream>
 
-#include "Model_Vertex.h"
-
 //pcl
 #include <pcl/io/ply_io.h>
 #include <pcl/io/boost.h>
@@ -83,7 +81,7 @@ void BoxObject::loadObj(const char *filename)
         std::string line = "";
         std::string prefix = "";
         glm::vec3 temp_vec3;
-        GLint temp_glint[3];
+        int temp_glint[3];
 
         pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
         ////pcl::PLYReader Reader;
@@ -218,7 +216,7 @@ void BoxObject::loadObj(const char *filename)
 void BoxObject::boxobj()
 {
     int boxCount = vertex_positions.size();
-    BoxMesh b(1, 1, 1);
+    BoxMesh b(2, 2, 2);
     Transform3D trans;
     for (int i = 0; i < boxCount; i++) {
         trans.setTranslation(vertex_positions[i].x, vertex_positions[i].y, vertex_positions[i].z);
@@ -301,11 +299,11 @@ void BoxObject::render() {
 }
 
 
-void BoxObject::pick(const QVector3D & p1, const QVector3D & d, PickObject & po) const {
+void BoxObject::pick(const QVector3D& p1, const QVector3D& d, PickObject & po) const {
     // now process all box objects
-    for (unsigned int i=0; i<m_boxes.size(); ++i) {
+    for (unsigned int i=0; i<m_boxes.size(); i++) {
         const BoxMesh& bm = m_boxes[i];
-        for (float j=0; j<6; ++j) {
+        for (unsigned int j=0; j<6; ++j) {
             float dist;
             // is intersection point closes to viewer than previous intersection points?
             if (bm.intersects(j, p1, d, dist)) {
@@ -317,10 +315,23 @@ void BoxObject::pick(const QVector3D & p1, const QVector3D & d, PickObject & po)
                     po.m_faceId = j;
                 }
             }
+        } 
+    }   
+}
+
+void BoxObject::pickPoint(const glm::vec3& n, const glm::vec3& f) const
+{
+
+    for (int i = 0; i < vertex_positions.size() - 2; i++) {
+        auto dir = f - n;
+        auto t = glm::length(dir);
+        if (rayTriangleIntersect(n, dir, vertex_positions[i], vertex_positions[i + 1], vertex_positions[i + 2], t))
+        {
+            std::cout << "Ray intersects mesh at index: " << i << std::endl;
+            break;
         }
     }
 }
-
 
 void BoxObject::highlight(unsigned int boxId, unsigned int faceId) {
     // we change the color of all vertexes of the selected box to lightgray

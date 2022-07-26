@@ -46,20 +46,10 @@ void PickLineObject::render() {
 }
 
 
-void PickLineObject::setPoints(const QVector3D & a, const QVector3D & b) {
+void PickLineObject::setPoints(const QVector3D & a, const QVector3D& b) {
     m_vertexBufferData[0] = Vertex(a, Qt::white);
     m_vertexBufferData[1] = Vertex(b, QColor(64,0,0));
     int vertexMemSize = m_vertexBufferData.size()*sizeof(Vertex);
-    m_vbo.bind();
-    m_vbo.allocate(m_vertexBufferData.data(), vertexMemSize);
-    m_vbo.release();
-    m_visible = true;
-}
-
-void PickLineObject::setPoint(const glm::vec3& a, const glm::vec3& b) {
-    m_vertexBufferData[0] = Vertex(a, Qt::white);
-    m_vertexBufferData[1] = Vertex(b, QColor(64, 0, 0));
-    int vertexMemSize = m_vertexBufferData.size() * sizeof(Vertex);
     m_vbo.bind();
     m_vbo.allocate(m_vertexBufferData.data(), vertexMemSize);
     m_vbo.release();

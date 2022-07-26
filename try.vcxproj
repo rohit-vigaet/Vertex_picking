@@ -213,7 +213,6 @@
     <ClInclude Include="DebugApplication.h" />
     <ClInclude Include="GridObject.h" />
     <ClInclude Include="KeyboardMouseHandler.h" />
-    <ClInclude Include="Model_Vertex.h" />
     <ClInclude Include="ObjModel.h" />
     <ClInclude Include="OpenGLException.h" />
     <QtMoc Include="OpenGLWindow.h">

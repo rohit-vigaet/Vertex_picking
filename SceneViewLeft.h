@@ -14,7 +14,6 @@
 #include "BoxObject.h"
 #include "PickLineObject.h"
 #include "Camera.h"
-//#include "Model_Camera.h"
 
 
 /*! The class SceneView extends the primitive OpenGLWindow
@@ -57,7 +56,7 @@ private:
     /*! Determine which objects/planes are selected and color them accordingly.
         nearPoint and farPoint define the current ray and are given in model coordinates.
     */
-    void selectNearestObject(const QVector3D & nearPoint, const QVector3D & farPoint);
+    void selectNearestObject(const QVector3D& nearPoint, const QVector3D& farPoint);
 
     /*! If set to true, an input event was received, which will be evaluated at next repaint. */
     bool						m_inputEventReceived;

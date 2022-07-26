@@ -35,7 +35,9 @@ public:
         Checks if any of the box object surfaces is hit by the ray defined by "p1 + d [0..1]" and
         stores data in po (pick object).
     */
-    void pick(const QVector3D & p1, const QVector3D & d, PickObject & po) const;
+    void pick(const QVector3D& p1, const QVector3D& d, PickObject & po) const;
+
+    void pickPoint(const glm::vec3& n, const glm::vec3& f) const;
 
     /*! Changes color of box and face to show that the box was clicked on. */
     void highlight(unsigned int boxId, unsigned int faceId);
@@ -47,8 +49,9 @@ public:
 
     std::vector<Model_Vertex>    vertices;
     std::vector<GLint>           indices;
-    std::vector<glm::fvec3>      vertex_positions;
-    std::vector<GLint>           vertex_position_indicies;
+    std::vector<glm::vec3>      vertex_positions;
+    std::vector<int>           vertex_position_indicies;
+    
 
     /*! Wraps an OpenGL VertexArrayObject, that references the vertex coordinates and color buffers. */
     QOpenGLVertexArrayObject	m_vao;

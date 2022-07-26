@@ -26,12 +26,12 @@ TestDialog::TestDialog() :
     format.setOption(QSurfaceFormat::DebugContext);
 #endif // GL_DEBUG
     
+    m_sceneViewRight = new SceneView;
+    m_sceneViewRight->setFormat(format);
+
     m_sceneViewLeft = new SceneViewLeft;
     m_sceneViewLeft->setFormat(format);
 
-    m_sceneViewRight = new SceneView;
-    m_sceneViewRight->setFormat(format);
-    
     // *** create window container widget
     
     QWidget* containerLeft = QWidget::createWindowContainer(m_sceneViewLeft);

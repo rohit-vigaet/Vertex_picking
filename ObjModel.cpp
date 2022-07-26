@@ -8,11 +8,9 @@
 #include <fstream>
 #include <sstream>
 
-#include "Model_Vertex.h"
-
 ObjModel::ObjModel() :
-    m_vbo(QOpenGLBuffer::VertexBuffer), // actually the default, so default constructor would have been enough
-    m_ebo(QOpenGLBuffer::IndexBuffer) // make this an Index Buffer
+   m_vbo(QOpenGLBuffer::VertexBuffer), // actually the default, so default constructor would have been enough
+   m_ebo(QOpenGLBuffer::IndexBuffer) // make this an Index Buffer
 {
     //create first box
    //BoxMesh b(4,2,3);
@@ -60,6 +58,15 @@ ObjModel::ObjModel() :
   //      b.copy2Buffer(vertexBuffer, elementBuffer, vertexCount);
 }
 
+static QVector3D vec3toqvec3(glm::vec3 v)
+{
+    QVector3D q;
+    q.setX(v.x);
+    q.setY(v.y);
+    q.setZ(v.z);
+    return q;
+}
+
 void ObjModel::loadObj(const char *filename)
 {
         //Vertex portions
@@ -80,7 +87,7 @@ void ObjModel::loadObj(const char *filename)
         std::string prefix = "";
         glm::vec3 temp_vec3;
         //glm::vec2 temp_vec2;
-        GLint temp_glint[3];
+        int temp_glint[3];
 
         //File open error check
         if (!in_file.is_open())
@@ -197,11 +204,11 @@ void ObjModel::loadObj(const char *filename)
 
 void ObjModel::boxobj()
 {
-    int boxCount = vertex_positions.size();
-    BoxMesh b(4000, 2000, 3000);
+    int boxCount = vertices.size();
+    BoxMesh b(1000, 1000, 1000);
     Transform3D trans;
     for (int i = 0; i < boxCount; i++) {
-        trans.setTranslation(vertex_positions[i].x, vertex_positions[i].y, vertex_positions[i].z);
+        trans.setTranslation(vertices[i].positions.x, vertices[i].positions.y, vertices[i].positions.z);
         b.transform(trans.toMatrix());
         m_boxes.push_back(b);
     }
@@ -247,7 +254,7 @@ void ObjModel::create(QOpenGLShaderProgram * shaderProgramm) {
 
     // index 0 = position
     shaderProgramm->enableAttributeArray(0); // array with index/id 0
-    shaderProgramm->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(Vertex));
+    shaderProgramm->setAttributeBuffer(0, GL_FLOAT, 0, 3, sizeof(Model_Vertex));
     // index 1 = color
     //shaderProgramm->enableAttributeArray(1); // array with index/id 1
     //shaderProgramm->setAttributeBuffer(1, GL_FLOAT, offsetof(Vertex, r), 3, sizeof(Vertex));
@@ -272,8 +279,7 @@ void ObjModel::render() {
 
     // now draw the cube by drawing individual triangles
     // - GL_TRIANGLES - draw individual triangles via elements
-    //glDrawElements(GL_TRIANGLES, m_elementBufferData.size(), GL_UNSIGNED_INT, nullptr);
-    glDrawArrays(GL_TRIANGLES, indices[0], indices.size());
+    glDrawArrays(GL_TRIANGLES, m_elementBufferData[0], m_elementBufferData.size());
 
     // release vertices again
     m_vao.release();
@@ -294,10 +300,25 @@ void ObjModel::pick(const QVector3D& p1, const QVector3D& d, PickObject & po) co
                    po.m_objectId = i;
                    po.m_faceId = j;
                }
+               std::cout << "index: " << indices[i];
            }
        }
    }
 }
+
+void ObjModel::pickPoint(const glm::vec3 &n, const glm::vec3 &f) const
+{
+    for (int i = 0; i < vertices.size() - 2; i++) {
+        auto dir = f - n;
+        auto t = glm::length(dir);
+        if (rayTriangleIntersect(n, dir, vertices[i].positions, vertices[i + 1].positions, vertices[i + 2].positions, t))
+        {
+            std::cout << "Ray intersects mesh at index: " << i << std::endl;
+            break;
+        }
+    }
+}
+
 
 
 void ObjModel::highlight(unsigned int boxId, unsigned int faceId) {

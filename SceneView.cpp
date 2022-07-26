@@ -46,6 +46,7 @@ SceneView::SceneView() :
 
     m_objModel.loadObj("C:/Users/firo1/Downloads/starRandMesh.obj");
     m_objModel.boxobj();
+    //m_objModel.pickPoint();
 }
 
 
@@ -216,7 +217,7 @@ void SceneView::wheelEvent(QWheelEvent *event) {
 }
 
 
-static const glm::vec3 Vec3(const QVector3D& q)
+static const glm::vec3 qvec3toVec3(const QVector3D& q)
 {
     glm::vec3 v;
     v.x = q.x();
@@ -338,7 +339,7 @@ void SceneView::processInput() {
         if (m_keyboardMouseHandler.keyDown(Qt::Key_Q)) 		translation -= m_camera.up();
         if (m_keyboardMouseHandler.keyDown(Qt::Key_E)) 		translation += m_camera.up();
 
-        float transSpeed = 5.0f;
+        float transSpeed = 15.0f;
         if (m_keyboardMouseHandler.keyDown(Qt::Key_Shift))
             transSpeed = 0.1f;
         m_camera.translate(translation * transSpeed);
@@ -391,17 +392,20 @@ void SceneView::selectNearestObject(const QVector3D& nearPoint, const QVector3D&
     PickObject p(2.f, std::numeric_limits<unsigned int>::max());
 
     // now process all objects and update p to hold the closest hit
-    m_objModel.pick(nearPoint, d, p);
+    //m_objModel.pick(nearPoint, d, p);
+    m_objModel.pickPoint(qvec3toVec3(nearPoint), qvec3toVec3(farPoint));
     // ... other objects
 
     // any object accepted a pick?
-    if (p.m_objectId == std::numeric_limits<unsigned int>::max())
-        return; // nothing selected
+   //if (p.m_objectId == std::numeric_limits<unsigned int>::max())
+   //    return; // nothing selected
 
-    qDebug().nospace() << "Pick successful (Box #"
-                       << p.m_objectId <<  ", Face #" << p.m_faceId << ", t = " << p.m_dist << ") after "
-                       << pickTimer.elapsed() << " ms";
+   // qDebug().nospace() << "Pick successful (Box #"
+   //                    << p.m_objectId <<  ", Face #" << p.m_faceId << ", t = " << p.m_dist << ") after "
+   //                    << pickTimer.elapsed() << " ms";
+
+    //std::cout << "Vertex index: " << p.m_objectId;
 
     // Mind: OpenGL-context must be current when we call this function!
-    m_objModel.highlight(p.m_objectId, p.m_faceId);
+    //m_objModel.highlight(p.m_objectId, p.m_faceId);
 }

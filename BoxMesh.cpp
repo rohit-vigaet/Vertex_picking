@@ -2,6 +2,8 @@
 
 #include "PickObject.h"
 
+#include <iostream>
+
 void copyPlane2Buffer(Vertex * & vertexBuffer, GLuint * & elementBuffer, unsigned int & elementStartIndex,
                       const Vertex & a, const Vertex & b, const Vertex & c, const Vertex & d);
 
@@ -12,7 +14,7 @@ BoxMesh::BoxMesh(float width, float height, float depth, QColor boxColor) {
     m_vertices.push_back(QVector3D( 0.5f*width, -0.5f*height,  0.5f*depth)); // b = 1
     m_vertices.push_back(QVector3D( 0.5f*width,  0.5f*height,  0.5f*depth)); // c = 2
     m_vertices.push_back(QVector3D(-0.5f*width,  0.5f*height,  0.5f*depth)); // d = 3
-
+    
     m_vertices.push_back(QVector3D(-0.5f*width, -0.5f*height, -0.5f*depth)); // e = 4
     m_vertices.push_back(QVector3D( 0.5f*width, -0.5f*height, -0.5f*depth)); // f = 5
     m_vertices.push_back(QVector3D( 0.5f*width,  0.5f*height, -0.5f*depth)); // g = 6
@@ -22,8 +24,11 @@ BoxMesh::BoxMesh(float width, float height, float depth, QColor boxColor) {
 }
 
 void BoxMesh::transform(const QMatrix4x4 & transform) {
-    for (QVector3D & v : m_vertices)
-        v = transform*v;
+    for (QVector3D& v : m_vertices)
+    {
+        v = transform * v;
+        //qDebug() << m_vertices;
+    }
 }
 
 
@@ -118,7 +123,7 @@ BoxMesh::Rect::Rect(QVector3D a, QVector3D b, QVector3D d) {
     m_a = b-a;
     m_b = d-a;
     m_normal = QVector3D::crossProduct(m_a, m_b);
-    Q_ASSERT(m_normal.length() != 0.f);
+    //Q_ASSERT(m_normal.length() != 0.f);
     m_normal.normalize();
     m_offset = a;
 }

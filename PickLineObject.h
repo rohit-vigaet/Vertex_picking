@@ -18,9 +18,7 @@ public:
     void destroy();
     void render();
 
-    void setPoints(const QVector3D & a, const QVector3D & b);
-
-    void setPoint(const glm::vec3& a, const glm::vec3& b);
+    void setPoints(const QVector3D& a, const QVector3D& b);
 
     bool						m_visible = false;
     std::vector<Vertex>			m_vertexBufferData;

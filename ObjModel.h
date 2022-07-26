@@ -38,18 +38,20 @@ public:
     */
     void pick(const QVector3D& p1, const QVector3D& d, PickObject & po) const;
 
+    void pickPoint(const glm::vec3& n, const glm::vec3& f) const;
+
     /*! Changes color of box and face to show that the box was clicked on. */
     void highlight(unsigned int boxId, unsigned int faceId);
 
     std::vector<BoxMesh>		m_boxes;
 
     std::vector<Vertex>			m_vertexBufferData;
-    std::vector<GLuint>			m_elementBufferData;
+    std::vector<uint>			m_elementBufferData;
 
     std::vector<Model_Vertex>    vertices;
-    std::vector<GLint>           indices;
+    std::vector<int>             indices;
 
-    std::vector<glm::fvec3> vertex_positions;
+    std::vector<glm::vec3> vertex_positions;
     
 
     /*! Wraps an OpenGL VertexArrayObject, that references the vertex coordinates and color buffers. */

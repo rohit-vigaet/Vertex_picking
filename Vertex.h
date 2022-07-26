@@ -4,6 +4,7 @@
 #include <QVector3D>
 #include <QColor>
 #include <glm.hpp>
+#include "PickObject.h"
 
 /*! A container class to store data (coordinates, normals, textures, colors) of a vertex, used for interleaved
     storage. Expand this class as needed.
@@ -31,15 +32,6 @@ struct Vertex {
         b(float(col.blueF()))
     {
     }
-    Vertex(const glm::vec3& coords, const QColor& col) :
-        x(float(coords.x)),
-        y(float(coords.y)),
-        z(float(coords.z)),
-        r(float(col.redF())),
-        g(float(col.greenF())),
-        b(float(col.blueF()))
-    {
-    }
 
     float x,y,z;
     float r,g,b;
@@ -48,6 +40,13 @@ struct Vertex {
 struct Model_Vertex
 {
     glm::vec3 positions;
+
+    //bool intersectP(const glm::vec3 &m, const glm::vec3& n, const glm::vec3& f) const
+    //{
+    //    return intersectsPoint(m, n, f);
+    //}
 };
+
+
 
 #endif // VERTEX_H
